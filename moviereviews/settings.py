@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 's*25qjiv1mn+#k!rwg^aodf)*2^)=wzs7d$x&)i883+6tq67@x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -120,7 +120,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = BASE_DIR / 'static'
+
+# The URL to use when referring to static files (where they will be served from)
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -130,9 +135,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'moviereviews/static/',
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'moviereviews/static/',
+# ]
 
 # This is for when unauthorized users go to a page they don't have access to, it will redirect them to the login page.
 
@@ -140,3 +145,14 @@ LOGIN_URL = 'loginaccount'
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+# # Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+
+# Simplified static file serving.
+# https://pypi.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
