@@ -27,8 +27,9 @@ SECRET_KEY = 's*25qjiv1mn+#k!rwg^aodf)*2^)=wzs7d$x&)i883+6tq67@x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://moviereviews-production.up.railway.app"]
 
+CSRF_TRUSTED_ORIGINS = ["https://moviereviews-production.up.railway.app"]
 
 # Application definition
 
@@ -147,9 +148,9 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 # # Heroku: Update database configuration from $DATABASE_URL.
-# import dj_database_url
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 
 # Simplified static file serving.
