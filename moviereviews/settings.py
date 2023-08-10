@@ -137,9 +137,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'moviereviews/static/',
-# ]
+#This is needed to collectstatic, it shows the path
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'moviereviews/static/',
+]
 
 # This is for when unauthorized users go to a page they don't have access to, it will redirect them to the login page.
 

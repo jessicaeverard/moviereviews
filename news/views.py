@@ -5,6 +5,9 @@ import requests
 import json
 
 def news(request):
+    #deletes everything in model so that there are no duplicates
+    NewsFeed.objects.all().delete() 
+
     url = "https://api.newscatcherapi.com/v2/search?q=movies&page_size=5"
     payload={}
     headers = {

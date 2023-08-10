@@ -4,14 +4,41 @@ from django.shortcuts import get_object_or_404, redirect
 from .models import Movie, Review
 from .forms import ReviewForm
 from django.contrib.auth.decorators import login_required
+import requests
+import json
+import pandas as pd
 
 def home(request):
+    #deletes everything in model so that there are no duplicates
+    Movie.objects.all().delete() 
+
+    pd.options.mode.chained_assignment = None #default='warn'
+
+    url = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYjlkMzBiMTAxOWIyYTRiODZkNDcwNGViZmVjNGJiMyIsInN1YiI6IjY0ZDBlODZlODUwOTBmMDEwNjkyNjExNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.LT6SXRREr4WQDgj_uIy0D5QrsqgPEIGYl9HyBkNezwY"
+    }
+    response = requests.get(url, headers=headers).json()
+    movies = response['results']
+
+    df = pd.DataFrame.from_dict(movies)
+    df['poster_path'] = 'https://image.tmdb.org/t/p/w500' + df['poster_path'].astype(str)
+    moviedf = df[['title', 'poster_path', 'overview' ]]
+
+    for index, row in moviedf.iterrows():
+        Movie.objects.create(
+            title=row['title'],
+            description=row['overview'],
+            image_url=row['poster_path'],
+    )
+
     searchTerm = request.GET.get('searchMovie')
     if searchTerm:
-        movies = Movie.objects.filter(title__icontains=searchTerm)
+        searchmovies = Movie.objects.filter(title__icontains=searchTerm)
     else:
-        movies = Movie.objects.all()
-    return render(request, 'home.html',	{'searchTerm':searchTerm, 'movies': movies})
+        searchmovies = Movie.objects.all()
+    return render(request, 'home.html',	{'searchTerm':searchTerm, 'movies': searchmovies})
 
 def about(request):
     return HttpResponse('<h1>Welcome to About Page</h1>')

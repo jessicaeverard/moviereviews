@@ -14,17 +14,12 @@
     {% for movie in movies %}
     <div v-for="movie in movies" class="col">
       <div class="card">
-        <img class="card-img-top" src="{{ movie.image.url }}" />
+        <img class="card-img-top" src="{{ movie.image_url }}" />
         <div class="card-body">
           <a href="{% url 'detail' movie.id %}">
             <h5 class="card-title fw-bold">{{ movie.title }}</h5>
           </a>
           <p class="card-text">{{ movie.description }}</p>
-          {% if movie.url %}
-          <a href="{{ movie.url }}" class="btn btn-primary">
-            Movie Link
-          </a>
-          {% endif %}
         </div>
       </div>
     </div>
