@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'movie',
     'news',
     'accounts',
-    'django_pandas',
 ]
 
 MIDDLEWARE = [
