@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 's*25qjiv1mn+#k!rwg^aodf)*2^)=wzs7d$x&)i883+6tq67@x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["https://moviereviews-production.up.railway.app"]
 
